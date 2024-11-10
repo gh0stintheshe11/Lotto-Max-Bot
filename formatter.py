@@ -2,60 +2,93 @@ import json
 import csv
 from datetime import datetime
 
-def format_lottery_data(json_file_path):
+def format_lottery_data(json_file):
     # Read JSON file
-    with open(json_file_path, 'r') as f:
-        data = json.load(f)
+    with open(json_file, 'r') as f:
+        data_list = json.load(f)
     
-    # Create main draw CSV
-    with open('main_draws.csv', 'w', newline='') as f:
+    print(f"Total records in JSON: {len(data_list)}")
+    processed = 0
+    skipped = []
+    
+    # Create single CSV file
+    with open('lottery_results.csv', 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Date', 'Main Numbers', 'Bonus Number', 'Jackpot', 'Total Winners'])
         
-        # Format main numbers as comma-separated string
-        main_numbers = ','.join(data['main_draw']['main_numbers'])
+        # Write header
         writer.writerow([
-            data['main_draw']['draw_date'],
-            main_numbers,
-            data['main_draw']['bonus_number'],
-            data['main_draw']['jackpot'],
-            data['main_draw']['total_winners']
+            'Date',
+            'Draw Date',
+            'Main Numbers 1',
+            'Main Numbers 2',
+            'Main Numbers 3',
+            'Main Numbers 4',
+            'Main Numbers 5',
+            'Main Numbers 6',
+            'Main Numbers 7',
+            'Bonus Number',
+            'Jackpot',
+            'Prize Breakdown',
+            'Total Sales',
+            'Tickets Sold',
+            'Total Winners',
+            'Winning Ratio',
+            'Sales Difference',
+            'Millions Count',
+            'Max Millions Numbers',
+            'Max Millions Next Draw',  
         ])
-
-    # Create max millions CSV
-    with open('max_millions.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['Draw Date', 'Numbers'])
         
-        for result in data['max_millions']['results']:
-            numbers = ','.join(result['numbers'])
-            writer.writerow([data['main_draw']['draw_date'], numbers])
-
-    # Create prize breakdown CSV
-    with open('prize_breakdown.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['Draw Date', 'Match Type', 'Prize Per Winner', 'Winners', 'Prize Fund'])
-        
-        for prize in data['prize_breakdown']:
-            writer.writerow([
-                data['main_draw']['draw_date'],
-                prize['match_type'],
-                prize['prize_per_winner'],
-                prize['winners'].split('\n')[0],  # Take only the first line to avoid regional breakdown
-                prize['prize_fund']
-            ])
-
-    # Create statistics CSV
-    with open('statistics.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['Draw Date', 'Metric', 'Value'])
-        
-        for metric, value in data['statistics'].items():
-            writer.writerow([
-                data['main_draw']['draw_date'],
-                metric,
-                value['main_stat']
-            ])
+        # Write each result as a row
+        for index, data in enumerate(data_list):
+            try:
+                # Format max millions numbers
+                max_millions_numbers = '|'.join([
+                    ','.join(result['numbers']) 
+                    for result in data.get('max_millions', {}).get('results', [])
+                ]) if data.get('max_millions', {}).get('results') else ''
+                
+                # Get statistics with default values
+                statistics = data.get('statistics', {})
+                
+                main_row = [
+                    data.get('date', ''),                                         # Date
+                    data.get('main_draw', {}).get('draw_date', ''),              # Draw Date
+                    data.get('main_draw', {}).get('main_numbers', [''])[0],      # Main Numbers 1
+                    data.get('main_draw', {}).get('main_numbers', ['', ''])[1],  # Main Numbers 2
+                    data.get('main_draw', {}).get('main_numbers', ['', '', ''])[2],  # Main Numbers 3
+                    data.get('main_draw', {}).get('main_numbers', ['', '', '', ''])[3],  # Main Numbers 4
+                    data.get('main_draw', {}).get('main_numbers', ['', '', '', '', ''])[4],  # Main Numbers 5
+                    data.get('main_draw', {}).get('main_numbers', ['', '', '', '', '', ''])[5],  # Main Numbers 6
+                    data.get('main_draw', {}).get('main_numbers', [''] * 7)[6],  # Main Numbers 7
+                    data.get('main_draw', {}).get('bonus_number', ''),           # Bonus Number
+                    data.get('main_draw', {}).get('jackpot', ''),               # Jackpot
+                    json.dumps(data.get('prize_breakdown', [])),                 # Prize Breakdown
+                    statistics.get('Total Sales', {}).get('main_stat', 'N/A'),   # Total Sales
+                    statistics.get('Tickets Sold', {}).get('main_stat', 'N/A'),  # Tickets Sold
+                    statistics.get('Total Winners', {}).get('main_stat', 'N/A'), # Total Winners
+                    statistics.get('Winning Ratio', {}).get('main_stat', 'N/A'), # Winning Ratio
+                    statistics.get('Sales Difference (From previous draw)', {}).get('main_stat', 'N/A'),  # Sales Difference
+                    data.get('max_millions', {}).get('count', '0'),             # Millions Count
+                    max_millions_numbers,                                        # Max Millions Numbers
+                    statistics.get('Max Millions for the next draw:', {}).get('main_stat', '0')  # Max Millions Next Draw
+                ]
+                writer.writerow(main_row)
+                processed += 1
+            except Exception as e:
+                skipped.append({
+                    'index': index,
+                    'date': data.get('date', 'Unknown'),
+                    'error': str(e)
+                })
+    
+    print(f"\nProcessing Summary:")
+    print(f"Total processed: {processed}")
+    print(f"Total skipped: {len(skipped)}")
+    if skipped:
+        print("\nSkipped entries:")
+        for entry in skipped:
+            print(f"Index {entry['index']}, Date: {entry['date']}, Error: {entry['error']}")
 
 # Usage
 format_lottery_data('lottery_results_final.json')
