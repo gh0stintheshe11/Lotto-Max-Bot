@@ -1,9 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 from datetime import datetime, timedelta
 from time import sleep
 import json
+import re
 
 YEAR_URL = "https://www.lottomaxnumbers.com/numbers/{year}"
 
@@ -118,16 +118,13 @@ def extract_max_millions(soup):
     """Extract all Max Millions numbers and details"""
     try:
         max_millions = []
-        max_millions_count = "0"  # Initialize count outside the if block
         max_millions_div = soup.find("div", class_="maxMillionsResultsWrap")
         
         if max_millions_div:
-            # Get Max Millions count if available
-            count_div = max_millions_div.find("div", class_="maxMillionsCount")
-            if count_div:
-                max_millions_count = count_div.text.strip()
+            # Method 1: Count divs
+            div_count = len(max_millions_div.find_all("div", class_="maxMillionResults"))
             
-            # Get all Max Millions results
+            # Method 2: Get actual results
             for result in max_millions_div.find_all("div", class_="maxMillionResults"):
                 numbers = []
                 for ball in result.find_all("li", class_="ball"):
@@ -142,11 +139,32 @@ def extract_max_millions(soup):
                         "numbers": numbers,
                         "winner_info": winner_info
                     })
+            
+            results_count = len(max_millions)
+            
+            # Method 3: Try to find count in text (fallback)
+            if div_count != results_count:
+                # Look for text like "There were 9 Max Millions prizes"
+                text_content = max_millions_div.get_text()
+                import re
+                number_matches = re.findall(r'(\d+)\s+Max\s+Millions', text_content, re.IGNORECASE)
+                if number_matches:
+                    text_count = int(number_matches[0])
+                    print(f"Warning: Count mismatch - Divs: {div_count}, Results: {results_count}, Text: {text_count}")
+                    # Use the text count if it's larger than what we found
+                    if text_count > results_count:
+                        return {
+                            "count": str(text_count),
+                            "results": max_millions
+                        }
+            
+            # If counts match or no text count found, use the results count
+            return {
+                "count": str(results_count),
+                "results": max_millions
+            }
         
-        return {
-            "count": max_millions_count,
-            "results": max_millions
-        }
+        return {"count": "0", "results": []}
         
     except Exception as e:
         print(f"Error in extract_max_millions: {str(e)}")
@@ -196,9 +214,38 @@ def extract_statistics(soup):
                     if title_div and stat_div:
                         title = title_div.text.strip()
                         stat = stat_div.text.strip()
-                        small_stat = small_stat_div.text.strip() if small_stat_div else None
+                        
+                        # Handle Tickets Sold and Total Sales
+                        if title == "Tickets Sold":
+                            # Extract total sales from small stat if it exists
+                            if small_stat_div:
+                                sales_text = small_stat_div.text.strip()
+                                sales_match = re.search(r'\$[\d,]+', sales_text)
+                                if sales_match:
+                                    stats["Total Sales"] = {"main_stat": sales_match.group(0)}
+                            stats[title] = {"main_stat": stat}
+                            continue
 
-                        stats[title] = {"main_stat": stat, "additional_info": small_stat}
+                        # Format Winning Ratio as percentage
+                        if title == "Winning Ratio":
+                            numbers = re.findall(r'\d+', stat)
+                            if len(numbers) >= 2:
+                                ratio = (float(numbers[0]) / float(numbers[1])) * 100
+                                stats[title] = {"main_stat": f"{ratio:.1f}%"}
+                            continue
+                        
+                        # Handle Max Millions for next draw
+                        if title == "Max Millions for the next draw:":
+                            numbers = re.findall(r'\d+', stat)
+                            stats[title] = {"main_stat": numbers[0] if numbers else "0"}
+                            continue
+
+                        # For all other stats
+                        stat_dict = {"main_stat": stat}
+                        if small_stat_div and small_stat_div.text.strip():
+                            stat_dict["additional_info"] = small_stat_div.text.strip()
+                        stats[title] = stat_dict
+
                 except Exception as e:
                     print(f"Error processing stats box: {str(e)}")
                     continue
@@ -320,13 +367,7 @@ def main():
         result = scrape_detail_page(date)
         if result:
             all_results.append(result)
-        sleep(1)  # Be nice to the server
-        
-        # Save progress every 50 results
-        if i % 50 == 0:
-            print(f"\nSaving progress after {i} results...")
-            with open('lottery_results_partial.json', 'w') as f:
-                json.dump(all_results, f, indent=2)
+        sleep(1)  # Be nice to the server :)
     
     # Save final results
     print("\nSaving final results...")
