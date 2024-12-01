@@ -45,6 +45,10 @@ jobs:
         DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)
         cp recommendations.txt "recommendation_history/${DRAW_DATE}_recommendations.txt"
 
+    - name: Get draw date
+      id: get_date
+      run: echo "DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)" >> $GITHUB_OUTPUT
+
     - name: Send to Discord
       if: always()
       uses: Ilshidur/action-discord@master
@@ -53,7 +57,7 @@ jobs:
       with:
         args: |
           New Lotto Max recommendations generated!
-          View the latest recommendations here: https://github.com/${{ github.repository }}/blob/main/recommendation_history/$(tail -n 1 lottery_results.csv | cut -d',' -f1)_recommendations.txt
+          View the latest recommendations here: https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_date.outputs.DRAW_DATE }}_recommendations.txt
 
     - name: Check for changes
       id: check_changes
