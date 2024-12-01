@@ -339,43 +339,51 @@ def main():
     print(f"\nFound total of {len(all_dates)} draw dates")
     
     # Try to load existing results
-    all_results = []
     try:
-        with open('lottery_results_partial.json', 'r') as f:
-            all_results = json.load(f)
-            print(f"\nLoaded {len(all_results)} existing results")
+        with open('lottery_results_final.json', 'r') as f:  # Changed from partial to final
+            existing_results = json.load(f)
+            print(f"\nLoaded {len(existing_results)} existing results")
             
-        # Find last scraped date
-        scraped_dates = set(r['date'] for r in all_results)
-        all_dates = [d for d in all_dates if d not in scraped_dates]
-        print(f"\nRemaining dates to scrape: {len(all_dates)}")
+        # Find new dates to scrape
+        existing_dates = set(r['date'] for r in existing_results)
+        new_dates = [d for d in all_dates if d not in existing_dates]
+        print(f"\nNew dates to scrape: {len(new_dates)}")
+        
+        if not new_dates:
+            print("No new draws to scrape. Exiting...")
+            return
+        
+        # Scrape only new dates
+        print("\nScraping new draws...")
+        for i, date in enumerate(new_dates, 1):
+            print(f"\nScraping {date} ({i}/{len(new_dates)})...")
+            result = scrape_detail_page(date)
+            if result:
+                existing_results.append(result)
+            sleep(1)
+        
+        # Save updated results
+        print("\nSaving updated results...")
+        with open('lottery_results_final.json', 'w') as f:
+            json.dump(existing_results, f, indent=2)
+        
     except FileNotFoundError:
         print("\nNo existing results found, starting fresh")
-    
-    # Save dates to file for reference
-    with open('lottery_dates.json', 'w') as f:
-        json.dump(all_dates, f, indent=2)
-    
-    print("\nDates saved to lottery_dates.json")
-    
-    # Now scrape detail pages
-    print("\nScraping detail pages...")
-    total_dates = len(all_dates)
-    
-    for i, date in enumerate(all_dates, 1):
-        print(f"\nScraping {date} ({i}/{total_dates})...")
-        result = scrape_detail_page(date)
-        if result:
-            all_results.append(result)
-        sleep(1)  # Be nice to the server :)
-    
-    # Save final results
-    print("\nSaving final results...")
-    with open('lottery_results_final.json', 'w') as f:
-        json.dump(all_results, f, indent=2)
+        # If no existing file, scrape all dates
+        all_results = []
+        for i, date in enumerate(all_dates, 1):
+            print(f"\nScraping {date} ({i}/{len(all_dates)})...")
+            result = scrape_detail_page(date)
+            if result:
+                all_results.append(result)
+            sleep(1)
+        
+        # Save results
+        print("\nSaving results...")
+        with open('lottery_results_final.json', 'w') as f:
+            json.dump(all_results, f, indent=2)
     
     print("\nScraping completed!")
-    print(f"Total results scraped: {len(all_results)}")
 
 
 if __name__ == "__main__":
