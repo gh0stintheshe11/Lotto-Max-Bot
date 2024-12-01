@@ -45,6 +45,13 @@ jobs:
         DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)
         cp recommendations.txt "recommendation_history/${DRAW_DATE}_recommendations.txt"
 
+    - name: Read recommendations
+      id: read_recommendations
+      run: |
+        echo "RECOMMENDATIONS<<EOF" >> $GITHUB_ENV
+        cat recommendations.txt >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
     - name: Send to Discord
       if: always()
       uses: Ilshidur/action-discord@master
@@ -54,7 +61,7 @@ jobs:
         args: |
           New Lotto Max recommendations generated!
           ```
-          $(cat recommendations.txt)
+          ${{ env.RECOMMENDATIONS }}
           ```
 
     - name: Check for changes
