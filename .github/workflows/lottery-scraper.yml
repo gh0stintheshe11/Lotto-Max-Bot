@@ -8,14 +8,14 @@ on:
   workflow_dispatch:  # Allows manual trigger of the workflow
 
 jobs:
-  scrape:
+  scrape-and-recommend:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Fetch all history for all branches and tags
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -31,16 +31,32 @@ jobs:
       run: |
         python scrape.py
 
+    - name: Run formatter
+      run: |
+        python formatter.py
+
+    - name: Generate recommendations
+      run: |
+        python recommender.py > recommendations.txt
+
+    - name: Send to Discord
+      if: always()
+      uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: "New Lotto Max recommendations generated! \n```$(cat recommendations.txt)```"
+
     - name: Check for changes
       id: check_changes
       run: |
-        git diff --quiet lottery_results_final.json || echo "changes=true" >> $GITHUB_OUTPUT
+        git diff --quiet lottery_results_final.json lottery_results.csv || echo "changes=true" >> $GITHUB_OUTPUT
 
     - name: Commit and push if changes exist
       if: steps.check_changes.outputs.changes == 'true'
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add lottery_results_final.json
-        git commit -m "Update lottery data [automated]"
-        git push 
+        git add lottery_results_final.json lottery_results.csv
+        git commit -m "Update lottery data and CSV [automated]"
+        git push
