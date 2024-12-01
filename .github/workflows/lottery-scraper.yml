@@ -48,12 +48,10 @@ jobs:
     - name: Read recommendations
       id: read_recommendations
       run: |
-        # Split recommendations at newlines into roughly equal parts
-        TOTAL_LINES=$(wc -l < recommendations.txt)
-        LINES_PER_PART=$((TOTAL_LINES / 2 + 1))
-        
-        PART1=$(head -n $LINES_PER_PART recommendations.txt)
-        PART2=$(tail -n +$((LINES_PER_PART + 1)) recommendations.txt)
+        # Get first 1800 chars (leaving room for formatting) up to last complete line
+        PART1=$(head -c 1800 recommendations.txt | sed -n '1,/.*$/{p;/.*$/q}')
+        # Get the rest
+        PART2=$(tail -c +${#PART1} recommendations.txt)
         
         echo "RECOMMENDATIONS_1<<EOF" >> $GITHUB_ENV
         echo "$PART1" >> $GITHUB_ENV
