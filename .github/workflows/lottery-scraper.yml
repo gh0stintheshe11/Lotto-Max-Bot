@@ -54,7 +54,7 @@ jobs:
         args: |
           New Lotto Max recommendations generated!
           ```
-          ${{ github.workspace }}/recommendations.txt
+          $(cat recommendations.txt)
           ```
 
     - name: Check for changes
