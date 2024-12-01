@@ -75,25 +75,33 @@ def generate_smart_numbers(history_weight=0.5, balance_weight=0.3, pattern_weigh
             
             # Enhanced balance factors
             if selected:
-                # Calculate current high/low ratio
-                high_ratio = sum(1 for x in selected if x > 25) / len(selected)
-                
-                # Score based on how close to 0.5 we'll be if we add this number
+                # Calculate current and new ratios
                 new_count = len(selected) + 1
                 new_high_count = sum(1 for x in selected if x > 25) + (1 if num > 25 else 0)
                 new_ratio = new_high_count / new_count
                 
-                # Higher score the closer we get to 0.5 ratio
-                balance_score = 1.0 - abs(0.5 - new_ratio) * 2  # Will give 1.0 at 0.5 ratio, decreasing as we move away
+                # Base balance score
+                balance_score = 1.0 - abs(0.5 - new_ratio) * 2
                 
-                # Even/Odd balance
-                even_odd_ratio = sum(1 for x in selected if x % 2 == 0) / len(selected)
+                # Add severe penalty for extreme ratios
+                numbers_remaining = 7 - new_count
+                potential_max_high = new_high_count + (numbers_remaining if num > 25 else 0)
+                potential_min_high = new_high_count
+                
+                # If we can't avoid an extreme ratio, heavily penalize
+                if potential_max_high == 7 or potential_min_high == 0:
+                    balance_score *= 0.2  # 80% penalty
+                
+                # Even/Odd balance with similar extreme prevention
+                new_even_count = sum(1 for x in selected if x % 2 == 0) + (1 if num % 2 == 0 else 0)
+                even_odd_ratio = new_even_count / new_count
                 even_odd_score = 1.0 - abs(0.5 - even_odd_ratio) * 2
                 
                 # Combine balance scores
                 balance_score = (balance_score + even_odd_score) / 2
             else:
-                balance_score = 0.5
+                # For first number, prefer middle range
+                balance_score = 1.0 - abs(25.5 - num) / 25
             
             # 3. Balance factors
             if selected:
