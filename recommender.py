@@ -45,6 +45,71 @@ def get_historical_data():
         'total_draws': len(df)
     }
 
+def calculate_scores(remaining, selected=[], history_weight=0.5, balance_weight=0.3, pattern_weight=0.2):
+    scores = {}
+    data = get_historical_data()
+    
+    # If all weights are high, prioritize historical patterns more strongly
+    all_high = all(w >= 0.7 for w in [history_weight, balance_weight, pattern_weight])
+    
+    # Get historical high/low patterns
+    high_nums = [n for n, f in data['number_freq'].items() if n > 25]
+    low_nums = [n for n, f in data['number_freq'].items() if n <= 25]
+    high_freq = sum(data['number_freq'][n] for n in high_nums) / len(high_nums)
+    low_freq = sum(data['number_freq'][n] for n in low_nums) / len(low_nums)
+    historical_high_ratio = high_freq / (high_freq + low_freq)
+    
+    for num in remaining:
+        # Get normalized frequency score
+        freq_score = data['number_freq'].get(num, 0) / data['total_draws']
+        
+        if all_high:
+            # Adjust frequency score based on historical high/low balance
+            if num > 25:
+                freq_score *= historical_high_ratio
+            else:
+                freq_score *= (1 - historical_high_ratio)
+        
+        if selected:
+            # Calculate current and new ratios
+            new_count = len(selected) + 1
+            new_high_count = sum(1 for x in selected if x > 25) + (1 if num > 25 else 0)
+            new_ratio = new_high_count / new_count
+            
+            # Base balance score using historical ratio as target
+            balance_score = 1.0 - abs(historical_high_ratio - new_ratio) * 2
+            
+            # Add severe penalty for extreme ratios
+            numbers_remaining = 7 - new_count
+            potential_max_high = new_high_count + (numbers_remaining if num > 25 else 0)
+            potential_min_high = new_high_count
+            
+            if potential_max_high == 7 or potential_min_high == 0:
+                balance_score *= 0.1  # 90% penalty for extreme ratios
+            
+            # Even/Odd balance
+            new_even_count = sum(1 for x in selected if x % 2 == 0) + (1 if num % 2 == 0 else 0)
+            even_odd_ratio = new_even_count / new_count
+            even_odd_score = 1.0 - abs(0.5 - even_odd_ratio) * 2
+            
+            # Combine balance scores
+            balance_score = (balance_score + even_odd_score) / 2
+        else:
+            # For first number, prefer middle range
+            balance_score = 1.0 - abs(25.5 - num) / 25
+        
+        # Pattern score based on historical patterns
+        pattern_score = freq_score if all_high else 0.5
+        
+        # Final score combines all factors
+        scores[num] = {
+            'frequency': freq_score,
+            'balance': balance_score,
+            'pattern': pattern_score
+        }
+    
+    return scores
+
 def generate_smart_numbers(history_weight=0.5, balance_weight=0.3, pattern_weight=0.2):
     """
     Generate 7 numbers using comprehensive analysis
@@ -75,33 +140,28 @@ def generate_smart_numbers(history_weight=0.5, balance_weight=0.3, pattern_weigh
             
             # Enhanced balance factors
             if selected:
-                # Calculate current and new ratios
-                new_count = len(selected) + 1
-                new_high_count = sum(1 for x in selected if x > 25) + (1 if num > 25 else 0)
-                new_ratio = new_high_count / new_count
+                # Count high/low numbers in current selection
+                high_count = sum(1 for x in selected if x > 25)
+                low_count = len(selected) - high_count
                 
-                # Base balance score
-                balance_score = 1.0 - abs(0.5 - new_ratio) * 2
+                # Calculate ideal ratios based on how many numbers we still need
+                numbers_left = 7 - len(selected)
+                ideal_high = 3 - high_count  # We want about 3 high numbers total
                 
-                # Add severe penalty for extreme ratios
-                numbers_remaining = 7 - new_count
-                potential_max_high = new_high_count + (numbers_remaining if num > 25 else 0)
-                potential_min_high = new_high_count
+                # Strongly prefer high numbers if we're below target, low numbers if above
+                if num > 25:
+                    balance_score = 1.0 if high_count < 3 else 0.2
+                else:
+                    balance_score = 1.0 if high_count >= 3 else 0.2
                 
-                # If we can't avoid an extreme ratio, heavily penalize
-                if potential_max_high == 7 or potential_min_high == 0:
-                    balance_score *= 0.2  # 80% penalty
-                
-                # Even/Odd balance with similar extreme prevention
-                new_even_count = sum(1 for x in selected if x % 2 == 0) + (1 if num % 2 == 0 else 0)
-                even_odd_ratio = new_even_count / new_count
-                even_odd_score = 1.0 - abs(0.5 - even_odd_ratio) * 2
+                # Even/Odd balance remains the same
+                even_odd_ratio = sum(1 for x in selected if x % 2 == 0) / len(selected)
+                even_odd_score = (0.5 - abs(0.5 - even_odd_ratio))
                 
                 # Combine balance scores
                 balance_score = (balance_score + even_odd_score) / 2
             else:
-                # For first number, prefer middle range
-                balance_score = 1.0 - abs(25.5 - num) / 25
+                balance_score = 0.5
             
             # 3. Balance factors
             if selected:
