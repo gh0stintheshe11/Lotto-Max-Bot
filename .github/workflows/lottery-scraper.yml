@@ -48,20 +48,64 @@ jobs:
     - name: Read recommendations
       id: read_recommendations
       run: |
-        echo "RECOMMENDATIONS<<EOF" >> $GITHUB_ENV
-        cat recommendations.txt >> $GITHUB_ENV
+        # Split recommendations at newlines into roughly equal parts
+        TOTAL_LINES=$(wc -l < recommendations.txt)
+        LINES_PER_PART=$((TOTAL_LINES / 3 + 1))
+        
+        PART1=$(head -n $LINES_PER_PART recommendations.txt)
+        PART2=$(head -n $((LINES_PER_PART * 2)) recommendations.txt | tail -n $LINES_PER_PART)
+        PART3=$(tail -n +$((LINES_PER_PART * 2 + 1)) recommendations.txt)
+        
+        echo "RECOMMENDATIONS_1<<EOF" >> $GITHUB_ENV
+        echo "$PART1" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+        echo "RECOMMENDATIONS_2<<EOF" >> $GITHUB_ENV
+        echo "$PART2" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+        echo "RECOMMENDATIONS_3<<EOF" >> $GITHUB_ENV
+        echo "$PART3" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
 
-    - name: Send to Discord
+    - name: Send to Discord (Part 1)
       if: always()
       uses: Ilshidur/action-discord@master
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       with:
         args: |
-          New Lotto Max recommendations generated!
+          New Lotto Max recommendations generated! (Part 1/3)
           ```
-          ${{ env.RECOMMENDATIONS }}
+          ${{ env.RECOMMENDATIONS_1 }}
+          ```
+
+    - name: Wait 1
+      run: sleep 2
+
+    - name: Send to Discord (Part 2)
+      if: always()
+      uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: |
+          Part 2/3:
+          ```
+          ${{ env.RECOMMENDATIONS_2 }}
+          ```
+
+    - name: Wait 2
+      run: sleep 2
+
+    - name: Send to Discord (Part 3)
+      if: always()
+      uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: |
+          Part 3/3:
+          ```
+          ${{ env.RECOMMENDATIONS_3 }}
           ```
 
     - name: Check for changes
