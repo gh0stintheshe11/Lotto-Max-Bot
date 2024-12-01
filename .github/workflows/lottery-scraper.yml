@@ -57,7 +57,7 @@ jobs:
       with:
         args: |
           New Lotto Max recommendations generated!
-          View the latest recommendations here: https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_date.outputs.DRAW_DATE }}_recommendations.txt
+          https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_date.outputs.DRAW_DATE }}_recommendations.txt
 
     - name: Check for changes
       id: check_changes
