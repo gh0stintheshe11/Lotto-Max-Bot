@@ -45,29 +45,7 @@ jobs:
         DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)
         cp recommendations.txt "recommendation_history/${DRAW_DATE}_recommendations.txt"
 
-    - name: Read recommendations
-      id: read_recommendations
-      run: |
-        # Split into three parts, each around 1300 chars to be safe
-        TOTAL_CHARS=$(wc -c < recommendations.txt)
-        CHARS_PER_PART=1300
-        
-        PART1=$(head -c $CHARS_PER_PART recommendations.txt | sed -n '1,/.*$/{p;/.*$/q}')
-        REMAINING1=$(tail -c +${#PART1} recommendations.txt)
-        PART2=$(echo "$REMAINING1" | head -c $CHARS_PER_PART | sed -n '1,/.*$/{p;/.*$/q}')
-        PART3=$(echo "$REMAINING1" | tail -c +${#PART2})
-        
-        echo "RECOMMENDATIONS_1<<EOF" >> $GITHUB_ENV
-        echo "$PART1" >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
-        echo "RECOMMENDATIONS_2<<EOF" >> $GITHUB_ENV
-        echo "$PART2" >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
-        echo "RECOMMENDATIONS_3<<EOF" >> $GITHUB_ENV
-        echo "$PART3" >> $GITHUB_ENV
-        echo "EOF" >> $GITHUB_ENV
-
-    - name: Send to Discord (Part 1)
+    - name: Send to Discord
       if: always()
       uses: Ilshidur/action-discord@master
       env:
@@ -75,31 +53,7 @@ jobs:
       with:
         args: |
           New Lotto Max recommendations generated!
-          ${{ env.RECOMMENDATIONS_1 }}
-
-    - name: Wait 1
-      run: sleep 2
-
-    - name: Send to Discord (Part 2)
-      if: always()
-      uses: Ilshidur/action-discord@master
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      with:
-        args: |
-          ${{ env.RECOMMENDATIONS_2 }}
-
-    - name: Wait 2
-      run: sleep 2
-
-    - name: Send to Discord (Part 3)
-      if: always()
-      uses: Ilshidur/action-discord@master
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      with:
-        args: |
-          ${{ env.RECOMMENDATIONS_3 }}
+          View the latest recommendations here: https://github.com/${{ github.repository }}/blob/main/recommendation_history/$(tail -n 1 lottery_results.csv | cut -d',' -f1)_recommendations.txt
 
     - name: Check for changes
       id: check_changes
