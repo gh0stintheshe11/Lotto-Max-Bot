@@ -37,7 +37,10 @@ jobs:
 
     - name: Generate recommendations
       run: |
-        python recommender.py > recommendations.txt
+        # Get the latest draw date from the CSV
+        DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)
+        python recommender.py > "recommendation_history/${DRAW_DATE}_recommendations.txt"
+        cp "recommendation_history/${DRAW_DATE}_recommendations.txt" recommendations.txt
 
     - name: Send to Discord
       if: always()
@@ -52,15 +55,15 @@ jobs:
     - name: Check for changes
       id: check_changes
       run: |
-        git diff --quiet lottery_results_final.json lottery_results.csv || echo "changes=true" >> $GITHUB_OUTPUT
+        git diff --quiet lottery_results_final.json lottery_results.csv recommendation_history || echo "changes=true" >> $GITHUB_OUTPUT
 
     - name: Commit and push if changes exist
       if: steps.check_changes.outputs.changes == 'true'
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add lottery_results_final.json lottery_results.csv
-        git commit -m "Update lottery data and CSV [automated]"
+        git add lottery_results_final.json lottery_results.csv recommendation_history/
+        git commit -m "Update lottery data and recommendations [automated]"
         git push
       env:
         GITHUB_TOKEN: ${{ github.token }}
