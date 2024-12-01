@@ -37,10 +37,13 @@ jobs:
 
     - name: Generate recommendations
       run: |
+        # Create directory if it doesn't exist
+        mkdir -p recommendation_history
+        # Get the latest draw date and recommendations
+        python recommender.py > recommendations.txt
         # Get the latest draw date from the CSV
         DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)
-        python recommender.py > "recommendation_history/${DRAW_DATE}_recommendations.txt"
-        cp "recommendation_history/${DRAW_DATE}_recommendations.txt" recommendations.txt
+        cp recommendations.txt "recommendation_history/${DRAW_DATE}_recommendations.txt"
 
     - name: Send to Discord
       if: always()
