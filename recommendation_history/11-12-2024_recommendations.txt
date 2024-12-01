@@ -1,156 +1,156 @@
 
 Lotto Max Smart Number Generator
-Generated on: 2024-12-01 01:49:20
+Generated on: 2024-12-01 01:55:03
 ======================================================================
 
 Historical-High Balance-High Pattern-High
 Weights - History: 0.7, Balance: 0.7, Patterns: 0.7
 --------------------------------------------------
 
-Set 1: [11, 16, 17, 19, 23, 28, 32]
-High/Low: 2/5, Even/Odd: 3/4
+Set 1: [34, 36, 37, 38, 39, 43, 48]
+High/Low: 7/0, Even/Odd: 4/3
 
-Set 2: [28, 32, 36, 38, 39, 40, 46]
-High/Low: 7/0, Even/Odd: 6/1
+Set 2: [26, 35, 37, 38, 39, 40, 46]
+High/Low: 7/0, Even/Odd: 4/3
 
-Set 3: [37, 38, 39, 40, 44, 46, 50]
+Set 3: [28, 31, 32, 36, 40, 43, 48]
 High/Low: 7/0, Even/Odd: 5/2
 
-Set 4: [10, 14, 18, 19, 25, 32, 40]
+Set 4: [7, 14, 18, 19, 22, 26, 32]
 High/Low: 2/5, Even/Odd: 5/2
 
-Set 5: [25, 30, 34, 38, 39, 40, 46]
-High/Low: 6/1, Even/Odd: 5/2
+Set 5: [28, 30, 32, 36, 38, 40, 46]
+High/Low: 7/0, Even/Odd: 7/0
 
 Historical-High Balance-High Pattern-Low
 Weights - History: 0.7, Balance: 0.7, Patterns: 0.2
 --------------------------------------------------
 
-Set 1: [1, 2, 4, 9, 15, 19, 25]
-High/Low: 0/7, Even/Odd: 2/5
+Set 1: [22, 28, 31, 32, 36, 40, 46]
+High/Low: 6/1, Even/Odd: 6/1
 
-Set 2: [2, 9, 10, 11, 14, 15, 21]
-High/Low: 0/7, Even/Odd: 3/4
+Set 2: [26, 28, 29, 30, 31, 32, 36]
+High/Low: 7/0, Even/Odd: 5/2
 
-Set 3: [11, 19, 25, 26, 31, 38, 46]
-High/Low: 4/3, Even/Odd: 3/4
-
-Set 4: [19, 22, 28, 32, 38, 39, 46]
+Set 3: [19, 22, 26, 28, 30, 32, 39]
 High/Low: 5/2, Even/Odd: 5/2
 
-Set 5: [19, 22, 37, 38, 39, 40, 46]
-High/Low: 5/2, Even/Odd: 4/3
+Set 4: [19, 28, 31, 32, 38, 40, 46]
+High/Low: 6/1, Even/Odd: 5/2
+
+Set 5: [5, 28, 32, 36, 40, 44, 48]
+High/Low: 6/1, Even/Odd: 6/1
 
 Historical-High Balance-Low Pattern-High
 Weights - History: 0.7, Balance: 0.2, Patterns: 0.7
 --------------------------------------------------
 
-Set 1: [28, 32, 36, 38, 39, 40, 46]
-High/Low: 7/0, Even/Odd: 6/1
+Set 1: [28, 30, 32, 36, 40, 44, 50]
+High/Low: 7/0, Even/Odd: 7/0
 
-Set 2: [7, 14, 18, 19, 22, 26, 30]
-High/Low: 2/5, Even/Odd: 5/2
+Set 2: [28, 31, 32, 36, 39, 40, 48]
+High/Low: 7/0, Even/Odd: 5/2
 
-Set 3: [2, 11, 19, 28, 32, 36, 44]
-High/Low: 4/3, Even/Odd: 5/2
+Set 3: [19, 28, 32, 36, 38, 40, 46]
+High/Low: 6/1, Even/Odd: 6/1
 
-Set 4: [1, 2, 6, 12, 14, 21, 30]
-High/Low: 1/6, Even/Odd: 5/2
+Set 4: [22, 24, 25, 26, 31, 35, 44]
+High/Low: 4/3, Even/Odd: 4/3
 
-Set 5: [28, 32, 36, 43, 44, 46, 50]
-High/Low: 7/0, Even/Odd: 6/1
+Set 5: [9, 14, 16, 17, 18, 19, 25]
+High/Low: 0/7, Even/Odd: 3/4
 
 Historical-High Balance-Low Pattern-Low
 Weights - History: 0.7, Balance: 0.2, Patterns: 0.2
 --------------------------------------------------
 
-Set 1: [28, 30, 31, 32, 36, 44, 48]
-High/Low: 7/0, Even/Odd: 6/1
-
-Set 2: [28, 31, 36, 37, 38, 39, 43]
-High/Low: 7/0, Even/Odd: 3/4
-
-Set 3: [22, 37, 38, 39, 40, 42, 46]
+Set 1: [22, 26, 31, 37, 38, 42, 46]
 High/Low: 6/1, Even/Odd: 5/2
 
-Set 4: [19, 28, 41, 43, 44, 46, 50]
-High/Low: 6/1, Even/Odd: 4/3
+Set 2: [38, 39, 40, 44, 45, 46, 50]
+High/Low: 7/0, Even/Odd: 5/2
 
-Set 5: [37, 38, 39, 40, 41, 46, 50]
-High/Low: 7/0, Even/Odd: 4/3
+Set 3: [11, 17, 18, 19, 22, 26, 35]
+High/Low: 2/5, Even/Odd: 3/4
+
+Set 4: [28, 36, 41, 43, 44, 45, 49]
+High/Low: 7/0, Even/Odd: 3/4
+
+Set 5: [19, 22, 26, 39, 40, 42, 46]
+High/Low: 5/2, Even/Odd: 5/2
 
 Historical-Low Balance-High Pattern-High
 Weights - History: 0.2, Balance: 0.7, Patterns: 0.7
 --------------------------------------------------
 
-Set 1: [19, 28, 31, 32, 36, 40, 48]
-High/Low: 6/1, Even/Odd: 5/2
+Set 1: [37, 38, 39, 40, 42, 46, 50]
+High/Low: 7/0, Even/Odd: 5/2
 
-Set 2: [3, 11, 18, 19, 22, 25, 31]
-High/Low: 1/6, Even/Odd: 2/5
+Set 2: [28, 31, 32, 36, 37, 40, 46]
+High/Low: 7/0, Even/Odd: 5/2
 
-Set 3: [35, 42, 43, 44, 45, 46, 50]
+Set 3: [39, 40, 41, 42, 43, 44, 48]
 High/Low: 7/0, Even/Odd: 4/3
 
-Set 4: [11, 19, 26, 28, 32, 36, 40]
-High/Low: 5/2, Even/Odd: 5/2
+Set 4: [26, 35, 40, 42, 44, 45, 49]
+High/Low: 7/0, Even/Odd: 4/3
 
-Set 5: [28, 30, 32, 35, 36, 44, 50]
+Set 5: [28, 30, 31, 36, 38, 40, 44]
 High/Low: 7/0, Even/Odd: 6/1
 
 Historical-Low Balance-High Pattern-Low
 Weights - History: 0.2, Balance: 0.7, Patterns: 0.2
 --------------------------------------------------
 
-Set 1: [7, 30, 32, 37, 38, 46, 50]
-High/Low: 6/1, Even/Odd: 5/2
+Set 1: [18, 19, 25, 28, 32, 38, 43]
+High/Low: 4/3, Even/Odd: 4/3
 
-Set 2: [5, 13, 14, 16, 18, 19, 23]
-High/Low: 0/7, Even/Odd: 3/4
+Set 2: [2, 32, 36, 40, 43, 44, 48]
+High/Low: 6/1, Even/Odd: 6/1
 
-Set 3: [27, 28, 30, 31, 32, 36, 39]
-High/Low: 7/0, Even/Odd: 4/3
+Set 3: [1, 2, 6, 35, 36, 39, 44]
+High/Low: 4/3, Even/Odd: 4/3
 
-Set 4: [5, 30, 32, 37, 38, 41, 46]
-High/Low: 6/1, Even/Odd: 4/3
+Set 4: [3, 5, 9, 18, 22, 26, 30]
+High/Low: 2/5, Even/Odd: 4/3
 
-Set 5: [10, 11, 12, 13, 19, 26, 31]
-High/Low: 2/5, Even/Odd: 3/4
+Set 5: [23, 24, 27, 30, 31, 32, 36]
+High/Low: 5/2, Even/Odd: 4/3
 
 Historical-Low Balance-Low Pattern-High
 Weights - History: 0.2, Balance: 0.2, Patterns: 0.7
 --------------------------------------------------
 
-Set 1: [18, 19, 22, 26, 30, 37, 46]
-High/Low: 4/3, Even/Odd: 5/2
+Set 1: [5, 7, 12, 18, 22, 26, 31]
+High/Low: 2/5, Even/Odd: 4/3
 
-Set 2: [40, 41, 42, 43, 44, 45, 49]
-High/Low: 7/0, Even/Odd: 3/4
-
-Set 3: [33, 37, 38, 39, 40, 41, 46]
-High/Low: 7/0, Even/Odd: 3/4
-
-Set 4: [39, 40, 41, 42, 43, 44, 48]
+Set 2: [35, 41, 42, 44, 45, 46, 50]
 High/Low: 7/0, Even/Odd: 4/3
 
-Set 5: [16, 18, 22, 28, 31, 32, 36]
-High/Low: 4/3, Even/Odd: 6/1
+Set 3: [5, 7, 12, 18, 22, 29, 37]
+High/Low: 2/5, Even/Odd: 3/4
+
+Set 4: [28, 32, 36, 37, 38, 39, 43]
+High/Low: 7/0, Even/Odd: 4/3
+
+Set 5: [16, 17, 18, 19, 25, 32, 38]
+High/Low: 2/5, Even/Odd: 4/3
 
 Historical-Low Balance-Low Pattern-Low
 Weights - History: 0.2, Balance: 0.2, Patterns: 0.2
 --------------------------------------------------
 
-Set 1: [15, 16, 24, 29, 30, 31, 35]
-High/Low: 4/3, Even/Odd: 3/4
+Set 1: [3, 11, 18, 23, 32, 35, 40]
+High/Low: 3/4, Even/Odd: 3/4
 
-Set 2: [1, 38, 39, 44, 45, 46, 50]
-High/Low: 6/1, Even/Odd: 4/3
+Set 2: [4, 36, 38, 39, 40, 44, 50]
+High/Low: 6/1, Even/Odd: 6/1
 
-Set 3: [18, 19, 27, 30, 31, 36, 40]
-High/Low: 5/2, Even/Odd: 4/3
+Set 3: [1, 2, 9, 17, 21, 28, 36]
+High/Low: 2/5, Even/Odd: 3/4
 
-Set 4: [34, 37, 38, 39, 40, 42, 46]
+Set 4: [38, 40, 41, 43, 44, 45, 50]
+High/Low: 7/0, Even/Odd: 4/3
+
+Set 5: [28, 29, 30, 32, 37, 46, 50]
 High/Low: 7/0, Even/Odd: 5/2
-
-Set 5: [2, 36, 42, 43, 44, 46, 49]
-High/Low: 6/1, Even/Odd: 5/2
