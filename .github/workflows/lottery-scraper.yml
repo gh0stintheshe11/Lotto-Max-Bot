@@ -45,7 +45,9 @@ jobs:
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       with:
-        args: "New Lotto Max recommendations generated! \n```$(cat recommendations.txt)```"
+        args: |
+          New Lotto Max recommendations generated!
+          $(< recommendations.txt)
 
     - name: Check for changes
       id: check_changes
@@ -60,3 +62,5 @@ jobs:
         git add lottery_results_final.json lottery_results.csv
         git commit -m "Update lottery data and CSV [automated]"
         git push
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
