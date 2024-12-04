@@ -54,19 +54,19 @@ jobs:
       with:
         args: |
           New Lotto Max heatmap generated!
-          https://github.com/${{ github.repository }}/blob/main/heatmap.png
+          https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_date.outputs.DRAW_DATE }}_heatmap.png
 
     - name: Check for changes
       id: check_changes
       run: |
-        git diff --quiet lottery_results_final.json lottery_results.csv heatmap.png || echo "changes=true" >> $GITHUB_OUTPUT
+        git diff --quiet lottery_results_final.json lottery_results.csv recommendation_history || echo "changes=true" >> $GITHUB_OUTPUT
 
     - name: Commit and push if changes exist
       if: steps.check_changes.outputs.changes == 'true'
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add lottery_results_final.json lottery_results.csv heatmap.png
+        git add lottery_results_final.json lottery_results.csv recommendation_history/
         git commit -m "Update lottery data and heatmap [automated]"
         git push
       env:
