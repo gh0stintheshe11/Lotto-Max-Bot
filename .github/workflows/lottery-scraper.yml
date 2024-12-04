@@ -2,9 +2,9 @@ name: Lottery Data Scraper
 
 on:
   schedule:
-    # Runs at 03:00 UTC (which is late evening ET) on Wednesday and Saturday
+    # Runs at 10:00 UTC (which is 5:00 AM EST) on Wednesday and Saturday
     # This ensures we catch the Tuesday and Friday draws
-    - cron: '0 3 * * 3,6'
+    - cron: '0 10 * * 3,6'
   workflow_dispatch:  # Allows manual trigger of the workflow
 
 jobs:
