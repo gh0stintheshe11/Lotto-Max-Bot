@@ -157,6 +157,8 @@ def extract_max_millions(soup):
                             "count": str(text_count),
                             "results": max_millions
                         }
+                        
+                        
             
             # If counts match or no text count found, use the results count
             return {
@@ -337,6 +339,10 @@ def main():
     print("Getting all lottery draw dates...")
     all_dates = get_all_dates(2009, 2024)
     print(f"\nFound total of {len(all_dates)} draw dates")
+    
+    # Update lottery_dates.json
+    with open('lottery_dates.json', 'w') as f:
+        json.dump(all_dates, f, indent=2)
     
     # Try to load existing results
     try:
