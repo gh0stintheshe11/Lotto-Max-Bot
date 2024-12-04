@@ -1,2 +1,3 @@
 .conda
 .venv
+.DS_Store

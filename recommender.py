@@ -36,7 +36,7 @@ def analyze_lottery_statistics():
 # Get the frequency data
 freq_data = analyze_lottery_statistics()
 
-def plot_lottery_heatmap(freq_data):
+def plot_lottery_heatmap(freq_data, next_draw_date):
     """Create a heatmap using actual lottery frequency data"""
     plt.figure(figsize=(10, 5))
     
@@ -54,21 +54,21 @@ def plot_lottery_heatmap(freq_data):
     plt.imshow(heatmap_data, cmap='YlOrRd')
     plt.colorbar(label='Frequency')
     
-    # Add number labels and frequencies
+    # Add number labels and frequencies with inverted colors
     for number, (row, col) in grid_positions.items():
         if number in freq_data:
             freq = freq_data[number]
+            # Get the current color of the cell
+            current_color = plt.cm.YlOrRd(heatmap_data[row-1, col-1] / max_freq)
+            # Invert the color
+            inverted_color = (1-current_color[0], 1-current_color[1], 1-current_color[2])
             plt.text(col-1, row-1, f'{number}\n({freq})', 
                     ha='center', va='center',
-                    color='black' if heatmap_data[row-1, col-1] < max_freq/2 else 'white')
+                    color=inverted_color)
     
-    plt.title('Lottery Number Frequency Heatmap')
-    plt.xlabel('Column Position')
-    plt.ylabel('Row Position')
-    plt.tight_layout()
-    plt.show()
+    plt.title('Lotto Max Frequency Heatmap')
+    plt.savefig(f'recommendation_history/{next_draw_date.strftime("%m-%d-%Y")}_heatmap.jpg', dpi=500, transparent=False, facecolor='white', bbox_inches='tight')
     
-    return heatmap_data
 
 from datetime import datetime
 
@@ -88,11 +88,6 @@ def main():
         days_until_next_draw = 3  # If today is Wednesday, next draw is Saturday
     next_draw_date = latest_date + timedelta(days=days_until_next_draw)
     
-    plot_lottery_heatmap(freq_data)
-    # output the heatmap data as a png and save it in the recommendation_history folder, named for the next draw date
-    # set the image size to 1000x500
-    plt.figure(figsize=(10, 5))
-    plt.savefig(f'recommendation_history/{next_draw_date.strftime("%m-%d-%Y")}_heatmap.png', dpi=300)
-    
+    plot_lottery_heatmap(freq_data, next_draw_date)
 if __name__ == "__main__":
     main() 
