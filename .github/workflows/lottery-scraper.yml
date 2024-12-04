@@ -42,9 +42,12 @@ jobs:
         # Generate new heatmap and recommendations
         python recommender.py
 
-    - name: Get draw date
-      id: get_date
-      run: echo "DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)" >> $GITHUB_OUTPUT
+    - name: Get latest heatmap file
+      id: get_latest
+      run: |
+        LATEST_FILE=$(ls -t recommendation_history/*_heatmap.png | head -n1)
+        FILENAME=$(basename "$LATEST_FILE")
+        echo "FILENAME=$FILENAME" >> $GITHUB_OUTPUT
 
     - name: Send to Discord
       if: always()
@@ -54,7 +57,7 @@ jobs:
       with:
         args: |
           New Lotto Max heatmap generated!
-          https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_date.outputs.DRAW_DATE }}_heatmap.png
+          https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_latest.outputs.FILENAME }}
 
     - name: Check for changes
       id: check_changes

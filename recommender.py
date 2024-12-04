@@ -68,7 +68,7 @@ def plot_lottery_heatmap(freq_data):
     plt.tight_layout()
     plt.show()
     
-    return heatmap_data  # Add this return statement
+    return heatmap_data
 
 from datetime import datetime
 
@@ -88,9 +88,11 @@ def main():
         days_until_next_draw = 3  # If today is Wednesday, next draw is Saturday
     next_draw_date = latest_date + timedelta(days=days_until_next_draw)
     
-    heatmap_data = plot_lottery_heatmap(freq_data)
+    plot_lottery_heatmap(freq_data)
     # output the heatmap data as a png and save it in the recommendation_history folder, named for the next draw date
-    plt.savefig(f'recommendation_history/{next_draw_date.strftime("%m-%d-%Y")}_heatmap.png')
+    # set the image size to 1000x500
+    plt.figure(figsize=(10, 5))
+    plt.savefig(f'recommendation_history/{next_draw_date.strftime("%m-%d-%Y")}_heatmap.png', dpi=300)
     
 if __name__ == "__main__":
     main() 
