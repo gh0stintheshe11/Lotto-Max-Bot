@@ -57,7 +57,7 @@ jobs:
       with:
         args: |
           New Lotto Max heatmap generated!
-          https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_latest.outputs.FILENAME }}
+          https://raw.githubusercontent.com/${{ github.repository }}/main/recommendation_history/${{ steps.get_latest.outputs.FILENAME }}
 
     - name: Check for changes
       id: check_changes
