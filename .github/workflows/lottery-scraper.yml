@@ -45,9 +45,9 @@ jobs:
     - name: Get latest heatmap file
       id: get_latest
       run: |
-        LATEST_FILE=$(ls -t recommendation_history/*_heatmap.png | head -n1)
+        LATEST_FILE=$(ls -t recommendation_history/*_heatmap.jpg | head -n1)
         FILENAME=$(basename "$LATEST_FILE")
-        echo "FILENAME=$FILENAME" >> $GITHUB_OUTPUT
+        echo "filename=$FILENAME" >> "$GITHUB_OUTPUT"
 
     - name: Send to Discord
       if: always()
@@ -57,7 +57,7 @@ jobs:
       with:
         args: |
           New Lotto Max heatmap generated!
-          https://raw.githubusercontent.com/${{ github.repository }}/main/recommendation_history/${{ steps.get_latest.outputs.FILENAME }}
+          https://raw.githubusercontent.com/${{ github.repository }}/main/recommendation_history/${{ steps.get_latest.outputs.filename }}
 
     - name: Check for changes
       id: check_changes
