@@ -2,7 +2,6 @@ beautifulsoup4>=4.12.0
 pandas>=2.0.0
 requests>=2.31.0
 matplotlib>=3.8.0
-#numpy
-#tensorflow
-#scikit-learn
+scikit-learn
+numpy
 

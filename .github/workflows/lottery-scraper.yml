@@ -39,11 +39,8 @@ jobs:
       run: |
         # Create directory if it doesn't exist
         mkdir -p recommendation_history
-        # Get the latest draw date and recommendations
-        python recommender.py > recommendations.txt
-        # Get the latest draw date from the CSV
-        DRAW_DATE=$(tail -n 1 lottery_results.csv | cut -d',' -f1)
-        cp recommendations.txt "recommendation_history/${DRAW_DATE}_recommendations.txt"
+        # Generate new heatmap and recommendations
+        python recommender.py
 
     - name: Get draw date
       id: get_date
@@ -56,21 +53,21 @@ jobs:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       with:
         args: |
-          New Lotto Max recommendations generated!
-          https://github.com/${{ github.repository }}/blob/main/recommendation_history/${{ steps.get_date.outputs.DRAW_DATE }}_recommendations.txt
+          New Lotto Max heatmap generated!
+          https://github.com/${{ github.repository }}/blob/main/heatmap.png
 
     - name: Check for changes
       id: check_changes
       run: |
-        git diff --quiet lottery_results_final.json lottery_results.csv recommendation_history || echo "changes=true" >> $GITHUB_OUTPUT
+        git diff --quiet lottery_results_final.json lottery_results.csv heatmap.png || echo "changes=true" >> $GITHUB_OUTPUT
 
     - name: Commit and push if changes exist
       if: steps.check_changes.outputs.changes == 'true'
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add lottery_results_final.json lottery_results.csv recommendation_history/
-        git commit -m "Update lottery data and recommendations [automated]"
+        git add lottery_results_final.json lottery_results.csv heatmap.png
+        git commit -m "Update lottery data and heatmap [automated]"
         git push
       env:
         GITHUB_TOKEN: ${{ github.token }}
