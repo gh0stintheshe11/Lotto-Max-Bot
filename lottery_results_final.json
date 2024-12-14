@@ -178490,5 +178490,131 @@
     ],
     "date": "12-10-2024",
     "url": "https://www.lottomaxnumbers.com/numbers/lotto-max-result-12-10-2024"
+  },
+  {
+    "main_draw": {
+      "draw_date": "Friday, December 13 2024",
+      "main_numbers": [
+        "2",
+        "17",
+        "20",
+        "22",
+        "32",
+        "33",
+        "47"
+      ],
+      "bonus_number": "24",
+      "jackpot": "$10,000,000",
+      "total_winners": "580,636"
+    },
+    "max_millions": {
+      "count": "0",
+      "results": []
+    },
+    "prize_breakdown": [
+      {
+        "match_type": "Match 7",
+        "prize_per_winner": "$10,000,000.00",
+        "winners": "Carried Over -  0",
+        "prize_fund": "$0.00"
+      },
+      {
+        "match_type": "Match 6 plus Bonus",
+        "prize_per_winner": "$166,426.10",
+        "winners": "0",
+        "prize_fund": "$0.00"
+      },
+      {
+        "match_type": "Match 6",
+        "prize_per_winner": "$4,755.00",
+        "winners": "35",
+        "prize_fund": "$166,425.00"
+      },
+      {
+        "match_type": "Match 5 plus Bonus",
+        "prize_per_winner": "$1,008.60",
+        "winners": "99",
+        "prize_fund": "$99,851.40"
+      },
+      {
+        "match_type": "Match 5",
+        "prize_per_winner": "$109.10",
+        "winners": "2,135",
+        "prize_fund": "$232,928.50"
+      },
+      {
+        "match_type": "Match 4 plus Bonus",
+        "prize_per_winner": "$49.50",
+        "winners": "3,700",
+        "prize_fund": "$183,150.00"
+      },
+      {
+        "match_type": "Match 4",
+        "prize_per_winner": "$20.00",
+        "winners": "48,836",
+        "prize_fund": "$976,720.00"
+      },
+      {
+        "match_type": "Match 3 plus Bonus",
+        "prize_per_winner": "$20.00",
+        "winners": "49,774",
+        "prize_fund": "$995,480.00"
+      },
+      {
+        "match_type": "Match 3",
+        "prize_per_winner": "Free Play Ticket",
+        "winners": "476,057",
+        "prize_fund": "-"
+      }
+    ],
+    "statistics": {
+      "Total Sales": {
+        "main_stat": "$20,357,880"
+      },
+      "Tickets Sold": {
+        "main_stat": "4,071,576"
+      },
+      "Total Winners": {
+        "main_stat": "580,636"
+      },
+      "Winning Ratio": {
+        "main_stat": "14.0%"
+      },
+      "Sales Difference (From previous draw)": {
+        "main_stat": "-8.06%"
+      },
+      "Max Millions for the next draw:": {
+        "main_stat": "0"
+      }
+    },
+    "provincial_stats": [
+      {
+        "province": "Atlantic Canada",
+        "winners": "35,608",
+        "amount_won": "$174,089.90"
+      },
+      {
+        "province": "British Columbia",
+        "winners": "73,992",
+        "amount_won": "$347,443.20"
+      },
+      {
+        "province": "Ontario",
+        "winners": "248,974",
+        "amount_won": "$1,113,329.90"
+      },
+      {
+        "province": "Quebec",
+        "winners": "117,957",
+        "amount_won": "$544,441.50"
+      },
+      {
+        "province": "Western Canada",
+        "winners": "104,105",
+        "amount_won": "$475,250.40"
+      }
+    ],
+    "date": "12-13-2024",
+    "url": "https://www.lottomaxnumbers.com/numbers/lotto-max-result-12-13-2024"
   }
 ]
