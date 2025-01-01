@@ -179114,5 +179114,125 @@
     ],
     "date": "12-27-2024",
     "url": "https://www.lottomaxnumbers.com/numbers/lotto-max-result-12-27-2024"
+  },
+  {
+    "main_draw": {
+      "draw_date": "Tuesday, December 31 2024",
+      "main_numbers": [
+        "7",
+        "9",
+        "11",
+        "16",
+        "17",
+        "20",
+        "33"
+      ],
+      "bonus_number": "48",
+      "jackpot": "$20,000,000",
+      "total_winners": "652,748"
+    },
+    "max_millions": {
+      "count": "0",
+      "results": []
+    },
+    "prize_breakdown": [
+      {
+        "match_type": "Match 7",
+        "prize_per_winner": "$20,000,000.00",
+        "winners": "Carried Over -  0",
+        "prize_fund": "$0.00"
+      },
+      {
+        "match_type": "Match 6 plus Bonus",
+        "prize_per_winner": "$171,082.30",
+        "winners": "1\r\n\t\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t\t\t\t\n\nOntario: 1",
+        "prize_fund": "$171,082.30"
+      },
+      {
+        "match_type": "Match 6",
+        "prize_per_winner": "$4,502.20",
+        "winners": "38",
+        "prize_fund": "$171,083.60"
+      },
+      {
+        "match_type": "Match 5 plus Bonus",
+        "prize_per_winner": "$1,047.40",
+        "winners": "98",
+        "prize_fund": "$102,645.20"
+      },
+      {
+        "match_type": "Match 5",
+        "prize_per_winner": "$91.80",
+        "winners": "2,610",
+        "prize_fund": "$239,598.00"
+      },
+      {
+        "match_type": "Match 4 plus Bonus",
+        "prize_per_winner": "$47.60",
+        "winners": "3,956",
+        "prize_fund": "$188,305.60"
+      },
+      {
+        "match_type": "Match 4",
+        "prize_per_winner": "$20.00",
+        "winners": "57,577",
+        "prize_fund": "$1,151,540.00"
+      },
+      {
+        "match_type": "Match 3 plus Bonus",
+        "prize_per_winner": "$20.00",
+        "winners": "51,644",
+        "prize_fund": "$1,032,880.00"
+      },
+      {
+        "match_type": "Match 3",
+        "prize_per_winner": "Free Play Ticket",
+        "winners": "536,824",
+        "prize_fund": "-"
+      }
+    ],
+    "statistics": {
+      "Tickets Sold": {
+        "main_stat": ""
+      },
+      "Total Winners": {
+        "main_stat": "652,748"
+      },
+      "Sales Difference (From previous draw)": {
+        "main_stat": "%"
+      },
+      "Max Millions for the next draw:": {
+        "main_stat": "0"
+      }
+    },
+    "provincial_stats": [
+      {
+        "province": "Atlantic Canada",
+        "winners": "36,173",
+        "amount_won": "$170,335.00"
+      },
+      {
+        "province": "British Columbia",
+        "winners": "87,649",
+        "amount_won": "$388,082.80"
+      },
+      {
+        "province": "Ontario",
+        "winners": "288,986",
+        "amount_won": "$1,456,695.70"
+      },
+      {
+        "province": "Quebec",
+        "winners": "122,981",
+        "amount_won": "$533,975.80"
+      },
+      {
+        "province": "Western Canada",
+        "winners": "116,959",
+        "amount_won": "$508,045.40"
+      }
+    ],
+    "date": "12-31-2024",
+    "url": "https://www.lottomaxnumbers.com/numbers/lotto-max-result-12-31-2024"
   }
 ]
